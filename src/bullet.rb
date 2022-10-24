@@ -7,8 +7,8 @@ class Bullet < Entity
         @image = Gosu::Image.new("../media/images/bullet-small.png")
         @x = x
         @y = y
-        @vel_x = Math.cos(angle) * 7
-        @vel_y = Math.sin(angle) * 7
+        @vel_x = Math.cos(angle) * 10
+        @vel_y = Math.sin(angle) * 10
         @angle = 0
     end
 
@@ -16,10 +16,10 @@ class Bullet < Entity
         @x += @vel_x 
         @y += @vel_y
         if @x > @window.width || @x < 0
-            @window.entities.delete(self)
+            @window.bullets.delete(self)
         end
         if @y > @window.height || @y < 0
-            @window.entities.delete(self)
-        end
+            @window.bullets.delete(self)
+        end 
     end
 end

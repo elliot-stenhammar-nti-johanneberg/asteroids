@@ -1,6 +1,11 @@
+require_relative "./hitbox.rb"
+
 class Entity
+    attr_accessor :x, :y
+
     def initialize(window)
         @window = window
+        @image = 0
         @x = 0
         @y = 0
         @vel_x = 0.0
@@ -21,5 +26,9 @@ class Entity
 
     def draw()
         @image.draw_rot(@x, @y, 0, @angle * 180/Math::PI + 90) # Convert
+    end
+
+    def hitbox()
+        Hitbox.new(@x, @y, @image.width, @image.height)
     end
 end

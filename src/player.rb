@@ -27,7 +27,7 @@ class Player < Entity
 
     def shoot()
         bullet = Bullet.new(@window, @x, @y, @angle)
-        @window.entities.append(bullet)
+        @window.bullets.append(bullet)
     end
 
 end
