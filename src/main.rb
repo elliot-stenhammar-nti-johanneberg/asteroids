@@ -3,7 +3,8 @@ require_relative "./player.rb"
 require_relative "./asteroid.rb"
 
 class Window < Gosu::Window
-    attr_accessor :bullets
+    attr_accessor :bullets, :asteroids
+
     def initialize()
         super(1240, 720)
         self.caption = "Game"
@@ -17,8 +18,10 @@ class Window < Gosu::Window
         when Gosu::KB_RETURN
             @player.shoot
         when Gosu::KB_M
-            asteroid = Asteroid.new(self)
-            @asteroids.append(asteroid)
+            1.times {
+                asteroid = Asteroid.new(self)
+                @asteroids.append(asteroid)
+            }
         end
     end
 
@@ -32,19 +35,26 @@ class Window < Gosu::Window
         if Gosu.button_down? Gosu::KB_W
           @player.thrust
         end
-        @player.update
 
+        @player.update
+        player_hitbox = @player.hitbox
+        
         @asteroids.each { |a| 
+            if a.hitbox.intersects?(player_hitbox)
+                @player.x = self.width/2
+                @player.y = self.height/2
+            end
             a.update
         } 
 
         @bullets.each { |b| 
             b.update
+            bullet_hitbox = b.hitbox
             @asteroids.each { |a|
                 # if b.hitbox.intersects?(a.hitbox)
-                if a.hitbox.intersects?(b.hitbox)
+                if a.hitbox.intersects?(bullet_hitbox)
                     @bullets.delete(b)
-                    @asteroids.delete(a)
+                    a.break()
                 end
             }
         }

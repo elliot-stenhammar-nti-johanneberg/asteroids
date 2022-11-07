@@ -2,7 +2,7 @@ require_relative "./entity.rb"
 require_relative "./bullet.rb"
 
 class Player < Entity
-    attr_accessor :angle, :vel
+    attr_accessor :angle, :vel, :x, :y
 
     def initialize(window)
         super(window)
