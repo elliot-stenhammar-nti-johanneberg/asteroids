@@ -7,7 +7,7 @@ class Window < Gosu::Window
 
     def initialize()
         super(1240, 720)
-        self.caption = "Game"
+        self.caption = "Scuffed asteroids"
         @player = Player.new(self)
         @asteroids = []
         @bullets = []
@@ -18,58 +18,47 @@ class Window < Gosu::Window
         when Gosu::KB_RETURN
             @player.shoot
         when Gosu::KB_M
-            1.times {
+            1.times do
                 asteroid = Asteroid.new(self)
                 @asteroids.append(asteroid)
-            }
+            end
         end
     end
 
     def update()
-        if Gosu.button_down? Gosu::KB_A
-          @player.turn_left
-        end
-        if Gosu.button_down? Gosu::KB_D
-          @player.turn_right
-        end
-        if Gosu.button_down? Gosu::KB_W
-          @player.thrust
-        end
-
         @player.update
         player_hitbox = @player.hitbox
         
-        @asteroids.each { |a| 
+        @asteroids.each do |a| 
             if a.hitbox.intersects?(player_hitbox)
                 @player.x = self.width/2
                 @player.y = self.height/2
             end
             a.update
-        } 
+        end
 
-        @bullets.each { |b| 
+        @bullets.each do |b| 
             b.update
             bullet_hitbox = b.hitbox
-            @asteroids.each { |a|
-                # if b.hitbox.intersects?(a.hitbox)
+            @asteroids.each do |a|
                 if a.hitbox.intersects?(bullet_hitbox)
                     @bullets.delete(b)
                     a.break()
                 end
-            }
-        }
+            end
+        end
     end
 
     def draw()
         @player.draw
 
-        @asteroids.each { |a| 
+        @asteroids.each do |a| 
             a.draw
-        }
+        end
 
-        @bullets.each { |b| 
+        @bullets.each do |b| 
             b.draw
-        }
+        end
     end
 end
 
